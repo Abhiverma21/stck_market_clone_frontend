@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.item:hover{
+  color: blue;
+}
+.navbar{
+  position: sticky;
+}
+.burger{
+  margin-left: -10px;
+}
+.set a{
+  text-decoration: none;
+  color: #9B9B9B;
+  margin-top: 4px;
+
+ 
+}
+.set a:hover{
+  color: blue ;
+}
+.my{
+  background-color: #FBFBFB;
+  
+}
+.let{
+  margin-left: 40px;
+}
+.let a{
+  display: inline-block;
+  text-decoration: none;
+  color: #9B9B9B;
+}
+.fcont{
+  font-size: 13px;
+  color: #9B9B9B;
+}
+.sign{
+  height: 60px;
+  text-align: center;
+  width: fit-content;
+  
+}
+
+.iflag{
+  border-right: 2px solid #9B9B9B;
+  text-align: center;
+  padding-top: 15px;
+}
+.links li a{
+    text-decoration: none;
+    color: #387ed1;
+}
+.links li{
+  list-style-type: none;
+}
+.links li a:hover{
+  color: #9B9B9B;
+}
+.sprt{
+  background-color: #387ed1;
+  color: #FBFBFB;
+  
+
+}
+.an{
+    text-decoration: none;
+    color: #FBFBFB;
+   text-align: end;
+    
+  }
+.inp{
+  width: 100%;
+  height: 60px;
+}
+.se a{
+  color: #FBFBFB;
+}
