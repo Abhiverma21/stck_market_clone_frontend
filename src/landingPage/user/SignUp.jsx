@@ -52,7 +52,7 @@ const SignupForm = () => {
     }
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/signup",
+        "https://stck-market-clone-backend.onrender.com",
         {
           ...inputValue,
         },
@@ -62,7 +62,7 @@ const SignupForm = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = "http://localhost:3000";
+          window.location.href = "https://stck-market-clone-frontend.onrender.com/";
         }, 1000);
       } else {
         handleError(message);
