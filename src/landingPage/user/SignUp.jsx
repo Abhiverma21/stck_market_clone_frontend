@@ -54,7 +54,7 @@ const SignupForm = () => {
     }
     try {
       const { data } = await axios.post(
-        "https://stck-market-clone-backend.onrender.com",
+        "https://stck-market-clone-backend-1.onrender.com",
         {
           ...inputValue,
         },
