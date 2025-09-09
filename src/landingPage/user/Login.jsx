@@ -33,7 +33,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "stck-market-clone-dashboard.vercel.app",
+        "https://stck-market-clone-backend.onrender.com",
         {
           ...inputValue,
         },
