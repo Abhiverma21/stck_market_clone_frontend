@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "./Login.css"
-
+import "./Login.css";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
@@ -32,7 +33,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/login",
+        "stck-market-clone-dashboard.vercel.app",
         {
           ...inputValue,
         },
@@ -43,7 +44,7 @@ const LoginForm = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = "http://localhost:3000";
+          window.location.href = "stck-market-clone-dashboard.vercel.app";
         }, 1000);
       } else {
         handleError(message);
@@ -59,6 +60,8 @@ const LoginForm = () => {
   };
 
   return (
+    <>
+    <Navbar />  
     <div className="form_container">
       <h2>Login Account</h2>
       <form onSubmit={handleSubmit}>
@@ -89,6 +92,8 @@ const LoginForm = () => {
       </form>
       <ToastContainer />
     </div>
+    <Footer />
+    </>
   );
 };
 

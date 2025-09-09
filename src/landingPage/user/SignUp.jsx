@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "./signUp.css";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -52,7 +54,7 @@ const SignupForm = () => {
     }
     try {
       const { data } = await axios.post(
-        "https://stck-market-clone-backend.onrender.com",
+        "stck-market-clone-dashboard.vercel.app",
         {
           ...inputValue,
         },
@@ -62,7 +64,7 @@ const SignupForm = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = "https://stck-market-clone-frontend.onrender.com/";
+          window.location.href = "stck-market-clone-dashboard.vercel.app";
         }, 1000);
       } else {
         handleError(message);
@@ -79,6 +81,8 @@ const SignupForm = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="form_container">
       <h2>Signup Account</h2>
       <form onSubmit={handleSubmit}>
@@ -120,6 +124,8 @@ const SignupForm = () => {
       </form>
       <ToastContainer />
     </div>
+    <Footer />
+    </>
   );
 };
 
