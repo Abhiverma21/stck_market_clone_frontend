@@ -2,16 +2,20 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+
 const LoginForm = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
   });
+
   const { email, password } = inputValue;
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -24,6 +28,7 @@ const LoginForm = () => {
     toast.error(err, {
       position: "bottom-left",
     });
+
   const handleSuccess = (msg) =>
     toast.success(msg, {
       position: "bottom-left",
@@ -33,27 +38,29 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "https://stck-market-clone-backend-1.onrender.com",
-        {
-          ...inputValue,
-        },
+        "https://stck-market-clone-backend-1.onrender.com/login",
+        { ...inputValue },
         { withCredentials: true }
       );
+
       console.log(data);
       const { success, message } = data;
+
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = "stck-market-clone-dashboard.vercel.app";
+          // redirect to dashboard
+          window.location.href = "https://stck-market-clone-dashboard.vercel.app";
         }, 1000);
       } else {
-        handleError(message);
+        handleError(message || "Login failed");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      handleError(error.response?.data?.message || "Something went wrong!");
     }
+
     setInputValue({
-      ...inputValue,
       email: "",
       password: "",
     });
@@ -61,38 +68,40 @@ const LoginForm = () => {
 
   return (
     <>
-    <Navbar />  
-    <div className="form_container">
-      <h2>Login Account</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Enter your email"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Enter your password"
-            onChange={handleOnChange}
-          />
-        </div>
-        <button type="submit" >Submit</button>
-        <span>
-          Already have an account? <Link to={"/signup"}>Signup</Link>
-        </span>
-      </form>
-      <ToastContainer />
-    </div>
-    <Footer />
+      <Navbar />
+      <div className="form_container">
+        <h2>Login Account</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Enter your email"
+              onChange={handleOnChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Enter your password"
+              onChange={handleOnChange}
+              required
+            />
+          </div>
+          <button type="submit">Submit</button>
+          <span>
+            Don’t have an account? <Link to={"/signup"}>Signup</Link>
+          </span>
+        </form>
+        <ToastContainer />
+      </div>
+      <Footer />
     </>
   );
 };

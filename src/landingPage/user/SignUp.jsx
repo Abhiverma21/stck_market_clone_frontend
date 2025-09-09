@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./signUp.css";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -16,6 +18,7 @@ const SignupForm = () => {
     username: "",
   });
   const [passwordError, setPasswordError] = useState("");
+
   const { email, password, username } = inputValue;
 
   const handleOnChange = (e) => {
@@ -24,6 +27,7 @@ const SignupForm = () => {
       ...inputValue,
       [name]: value,
     });
+
     if (name === "password") {
       validatePassword(value);
     }
@@ -31,7 +35,9 @@ const SignupForm = () => {
 
   const validatePassword = (password) => {
     if (!passwordRegex.test(password)) {
-      setPasswordError("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+      setPasswordError(
+        "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+      );
     } else {
       setPasswordError("");
     }
@@ -41,6 +47,7 @@ const SignupForm = () => {
     toast.error(err, {
       position: "bottom-left",
     });
+
   const handleSuccess = (msg) =>
     toast.success(msg, {
       position: "bottom-right",
@@ -48,32 +55,36 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (passwordError) {
       handleError(passwordError);
       return;
     }
+
     try {
       const { data } = await axios.post(
-        "https://stck-market-clone-backend-1.onrender.com",
-        {
-          ...inputValue,
-        },
+        "https://stck-market-clone-backend-1.onrender.com/signup",
+        { ...inputValue },
         { withCredentials: true }
       );
+
       const { success, message } = data;
+
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = "stck-market-clone-dashboard.vercel.app";
+          window.location.href =
+            "https://stck-market-clone-dashboard.vercel.app";
         }, 1000);
       } else {
-        handleError(message);
+        handleError(message || "Signup failed");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      handleError(error.response?.data?.message || "Something went wrong!");
     }
+
     setInputValue({
-      ...inputValue,
       email: "",
       password: "",
       username: "",
@@ -82,49 +93,52 @@ const SignupForm = () => {
 
   return (
     <>
-    <Navbar />
-    <div className="form_container">
-      <h2>Signup Account</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Enter your email"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            value={username}
-            placeholder="Enter your username"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Enter your password"
-            onChange={handleOnChange}
-          />
-          {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
-        </div>
-        <button type="submit">Submit</button>
-        <span>
-          Already have an account? <Link to={"/login"}>Login</Link>
-        </span>
-      </form>
-      <ToastContainer />
-    </div>
-    <Footer />
+      <Navbar />
+      <div className="form_container">
+        <h2>Signup Account</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Enter your email"
+              onChange={handleOnChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              name="username"
+              value={username}
+              placeholder="Enter your username"
+              onChange={handleOnChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Enter your password"
+              onChange={handleOnChange}
+              required
+            />
+            {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
+          </div>
+          <button type="submit">Submit</button>
+          <span>
+            Already have an account? <Link to={"/login"}>Login</Link>
+          </span>
+        </form>
+        <ToastContainer />
+      </div>
+      <Footer />
     </>
   );
 };
